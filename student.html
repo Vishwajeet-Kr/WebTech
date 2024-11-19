@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Student Database</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    button {
+      margin: 5px;
+      padding: 10px;
+    }
+    table {
+      margin-top: 20px;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      text-align: center;
+      padding: 8px;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+  </style>
+</head>
+<body>
+  <h1>Interactive Student Database</h1>
+  <button onclick="addStudent()">Add Student</button>
+  <button onclick="removeStudent()">Remove Student</button>
+  <button onclick="updateStudent()">Update Student</button>
+  <button onclick="viewStudents()">View Students</button>
+
+  <div id="output"></div>
+
+  <script>
+    // Student database implementation
+    class StudentDatabase {
+      constructor() {
+        this.students = [];
+      }
+
+      // Add a student to the database
+      addStudent(name, age, grade) {
+        this.students.push({ name, age, grade });
+      }
+
+      // Remove a student by index
+      removeStudent(index) {
+        if (index < 0 || index >= this.students.length) {
+          return "Invalid index. No student removed.";
+        }
+        const removed = this.students.splice(index, 1)[0];
+        return `${removed.name} was removed.`;
+      }
+
+      // Update student information by index
+      updateStudent(index, newName, newAge, newGrade) {
+        if (index < 0 || index >= this.students.length) {
+          return "Invalid student index.";
+        }
+        this.students[index] = { name: newName, age: newAge, grade: newGrade };
+        return `Student information updated successfully!`;
+      }
+
+      // Get all students
+      getStudents() {
+        return this.students;
+      }
+    }
+
+    // Create a student database instance
+    const database = new StudentDatabase();
+
+    // Functions for user interaction
+    function addStudent() {
+      const name = prompt("Enter student name:");
+      const age = prompt("Enter student age:");
+      const grade = prompt("Enter student grade:");
+      if (name && age && grade) {
+        database.addStudent(name, age, grade);
+        alert("Student added successfully!");
+      } else {
+        alert("All fields are required!");
+      }
+    }
+
+    function removeStudent() {
+      const index = parseInt(prompt("Enter the index of the student to remove (0-based):"));
+      if (isNaN(index)) {
+        alert("Invalid index!");
+        return;
+      }
+      const result = database.removeStudent(index);
+      alert(result);
+    }
+
+    function updateStudent() {
+      const index = parseInt(prompt("Enter the index of the student to update (0-based):"));
+      if (isNaN(index)) {
+        alert("Invalid index!");
+        return;
+      }
+      const newName = prompt("Enter new name:");
+      const newAge = prompt("Enter new age:");
+      const newGrade = prompt("Enter new grade:");
+      if (newName && newAge && newGrade) {
+        const result = database.updateStudent(index, newName, newAge, newGrade);
+        alert(result);
+      } else {
+        alert("All fields are required!");
+      }
+    }
+
+    function viewStudents() {
+      const students = database.getStudents();
+      const outputDiv = document.getElementById("output");
+      if (students.length === 0) {
+        outputDiv.innerHTML = "<p>No students in the database.</p>";
+        return;
+      }
+
+      let table = `<table>
+        <tr>
+          <th>Index</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Grade</th>
+        </tr>`;
+
+      students.forEach((student, index) => {
+        table += `<tr>
+          <td>${index}</td>
+          <td>${student.name}</td>
+          <td>${student.age}</td>
+          <td>${student.grade}</td>
+        </tr>`;
+      });
+
+      table += "</table>";
+      outputDiv.innerHTML = table;
+    }
+  </script>
+</body>
+</html>

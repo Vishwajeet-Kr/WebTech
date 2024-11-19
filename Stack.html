@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stack Implementation</title>
+</head>
+<body>
+  <h1>Stack Implementation</h1>
+  <button onclick="pushToStack()">Push</button>
+  <button onclick="popFromStack()">Pop</button>
+  <button onclick="peekStack()">Peek</button>
+  <p id="output"></p>
+
+  <script>
+    // Stack implementation
+    class Stack {
+      constructor() {
+        this.items = [];
+      }
+
+      push(item) {
+        this.items.push(item);
+      }
+
+      pop() {
+        return this.items.pop() || "Stack is empty";
+      }
+
+      peek() {
+        return this.items[this.items.length - 1] || "Stack is empty";
+      }
+    }
+
+    // Create a stack instance
+    const stack = new Stack();
+
+    // Functions for interaction
+    function pushToStack() {
+      const item = prompt("Enter an item to push:");
+      stack.push(item);
+      document.getElementById("output").innerText = `Stack: ${stack.items}`;
+    }
+
+    function popFromStack() {
+      const removedItem = stack.pop();
+      document.getElementById("output").innerText = `Removed: ${removedItem}\nStack: ${stack.items}`;
+    }
+
+    function peekStack() {
+      const topItem = stack.peek();
+      document.getElementById("output").innerText = `Top Item: ${topItem}`;
+    }
+  </script>
+</body>
+</html>
